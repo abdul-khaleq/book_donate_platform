@@ -1,5 +1,5 @@
 from typing import Any
-from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from . import forms
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
@@ -13,19 +13,18 @@ from django.urls import reverse_lazy
 from django.views.generic import UpdateView
 from django.views.generic import FormView,ListView
 from django.contrib.auth.models import User
-from .models import Gift, RedeemHistory
+from .models import Gift,UserAccount, RedeemHistory
 from donate.models import BookDonateModel
+from donate.forms import BookDonateForm
+from django.views.generic import TemplateView
 
+from django.utils.decorators import method_decorator
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
-from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login, logout
-# from rest_framework.authtoken.models import Token
-# for sending email
+
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
-from django.shortcuts import redirect
     
 class UserRegistrationView(FormView):
     template_name = 'register.html'
@@ -38,7 +37,7 @@ class UserRegistrationView(FormView):
         # print("token ", token)
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         # print("uid ", uid)
-        confirm_link = f"http://127.0.0.1:8000/user/active/{uid}/{token}"
+        confirm_link = f"https://book-donate-platform-g1fx.onrender.com/user/active/{uid}/{token}"
         email_subject = "Confirm Your Email"
         email_body = render_to_string('confirm_email.html', {'confirm_link' : confirm_link})
         email = EmailMultiAlternatives(email_subject , '', to=[user.email])
@@ -83,44 +82,21 @@ class UserLoginView(LoginView):
         return context
 
 
-
-
-
-from django.views.generic import TemplateView
-from django.contrib.auth.models import User
-from django.shortcuts import render
-from .models import UserAccount, RedeemHistory
-
 class UserProfileView(TemplateView):
     template_name = 'profile.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         try:
             user_account = self.request.user.user
         except UserAccount.DoesNotExist:
             user_account = None
-
         context['user_account'] = user_account
-
         gifts = RedeemHistory.objects.filter(user=self.request.user)
         books = BookDonateModel.objects.filter(user=self.request.user)
-
         context['books'] = books
         context['gifts'] = gifts
-
         return context
-
-
-
-
-
-from django.views.generic import DetailView
-from django.contrib.auth.models import User
-from .models import UserAccount
-
-
 
 
 class ProfileView(ListView):
@@ -132,8 +108,6 @@ class ProfileView(ListView):
         books = BookDonateModel.objects.filter(user=self.request.user)
         print(gifts)
         return render(request, self.template_name, {'books':books,'gifts': gifts})
-
-
 
 
 class UserAccountUpdateView(View):
@@ -154,7 +128,6 @@ class UserAccountUpdateView(View):
         return render(request, self.template_name, {'form': form})
     
 
-
 class UserLogoutView(LogoutView):
     def get_success_url(self):
         if self.request.user.is_authenticated:
@@ -162,27 +135,11 @@ class UserLogoutView(LogoutView):
         return reverse_lazy('user_login')
 
 
-from django.views.generic import ListView
-
-from donate.forms import BookDonateForm
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-# @method_decorator(login_required, name='dispatch')
-# class GiftRedeemView(View):
-#     template_name = 'redeem_gift.html'
-
-#     def get(self, request, *args, **kwargs):
-#         gifts = Gift.objects.all()
-#         return render(request, self.template_name, {'gifts': gifts})
-
-
-
 class BookDonateUpdateView(UpdateView):
     model = BookDonateModel
     form_class = BookDonateForm
     template_name = 'update_donate_book.html'
     success_url = reverse_lazy('profile')
-
 
 
 class RedeemGiftView(View):
