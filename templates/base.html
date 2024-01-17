@@ -42,7 +42,11 @@
                       <a class="nav-link btn btn-success  text-white" href="{%url 'profile'%}">Profile</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link  btn btn-danger ms-3  text-white" href="{%url 'user_logout'%}">Logout</a>
+                      <form method="post" action="{%url 'user_logout'%}">
+                        {% csrf_token %}
+                        <button class="nav-link  btn btn-danger ms-3  text-white">Logout</button>
+                    </form>
+                      {% comment %} <a class="nav-link  btn btn-danger ms-3  text-white" href="{%url 'user_logout'%}">Logout</a> {% endcomment %}
                     </li>
                     {% else %}
                     <li class="nav-item">
