@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container py-5">
+  <div class="row g-2">
+    <div class="col-6 d-flex align-items-center">
+      <div class="">
+        <h1>Welcome to our book donate platform</h1>
+        <p>Explore a wide range of top-quality books and find your dream vehicle with ease.</p>
+        <p>Discover our handpicked selection of featured books. Each model is meticulously chosen for its performance, style, and reliability. Browse through the finest collection and choose a car that suits your preferences.</p>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="p-3 border bg-light">
+        <img src="{% static "images/home_img.jpg" %}" class="img-fluid" alt="">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container py-3">
+  <h4>Total book found: {{books|length}}</h4>
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for book in books%}
+    <div class="col">
+      <div class="card h-100">
+        <img src="{{book.image.url}}" class="card-img-top" alt="{{book.title}}">
+        <div class="card-body">
+          <h5 class="card-title">Title: {{book.title}}</h5>
+          <p class="card-text">Author: {{book.author}}</p>
+          {% comment %} <a href="{% url 'book_details' book.id%}" class="btn btn-primary">View Details</a> {% endcomment %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+
+<div class="container py-3">
+  <h1>Total comments: {{comments|length}}</h1>
+  {% for comment in comments%}
+  <div class="card-body border m-3">
+    <h6>{{comment.user}} {{comment.cheated_on}}</h6>
+    <p>{{comment.text}}</p>
+  </div>
+  {% endfor %}
+
+
+  {% comment %} <div class="card-body">
+    <form action="" method="post">
+      <h1>Add comments</h1>
+      {% csrf_token %}
+      {{comment_form|crispy}}
+      <button class="btn btn-warning">Submit</button>
+    </form>
+  </div>
+</div> {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+{% if  request.user.username%}
+{% load crispy_forms_tags %}
+<form class="w-50 m-auto py-5" method="post" enctype="multipart/form-data">
+  <h1>Comment Book</h1>
+  {% csrf_token %}
+  {{ form|crispy }}
+  <button class="btn btn-primary">Submit</button>
+</form>
+{% else %}
+<h4>You can comment after login</h4>
+{% endif %}
+
+{% endblock content %}
+
+</div>
+
