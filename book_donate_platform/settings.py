@@ -15,8 +15,8 @@ SECRET_KEY = 'django-insecure-fcqs1gheh&zisz%m7go4%*i-96nqd)7bfhzvagehn^6cd8_k4+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ["*"]
+CSRF_TRUSTED_ORIGINS = ['https://book-donate-platform-g1fx.onrender.com','https://*.127.0.0.1']
 
 # Application definition
 
