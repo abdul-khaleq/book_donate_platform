@@ -3,19 +3,18 @@
 {% block content %}
 
 <div class="container py-3">
-  <h4>Total gifts found: {{gifts|length}}</h4>
+  <h4 class="py-3">Total gifts found: {{gifts|length}}</h4>
   <div class="row row-cols-1 row-cols-md-3 g-4">
     {% for gift in gifts%}
     <div class="col">
       <div class="card h-100">
         <img src="{{gift.image.url}}" class="card-img-top" alt="{{book.name}}">
         <div class="card-body">
-          <h5 class="card-title">Coins required: {{gift.coins_required}}</h5>
-          <h5 class="card-title"> Quantity: {{gift.quantity}}</h5>
           <h5 class="card-title">{{gift.name}}</h5>
           <p class="card-text">{{gift.description}}</p>
-          {% comment %} <a href="{% url 'redeem_gift' gift.id%}" class="btn btn-primary">Redeem</a> {% endcomment %}
-          <a href="{% url 'redeem_gift' gift.id %}" class="btn btn-primary {% if request.user.user.coins < gift.coins_required %} disabled{% endif %}">Redeem</a>
+          <h5 class="card-title"> Quantity: {{gift.quantity}}</h5>
+          <h5 class="card-title">Coins required: {{gift.coins_required}}</h5>
+          <a href="{% url 'redeem_gift' gift.id %}" class="btn btn-primary {% if request.user.user.coins < gift.coins_required  or gift.quantity == 0%} disabled{% endif %}">Redeem</a>
         </div>
       </div>
     </div>

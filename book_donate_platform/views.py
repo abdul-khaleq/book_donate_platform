@@ -1,14 +1,12 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from donate.models import BookDonateModel
-from django.shortcuts import render
-
-
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 from comment.models import Comment
+from donate.models import BookDonateModel
 from comment.forms import CommentForm
 
 # class HomeView(ListView):
@@ -35,3 +33,9 @@ class HomeAndCommentCreateView(CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
  
+class BookDetailView(DetailView):
+    model = BookDonateModel
+    pk_url_kwarg = 'id'
+    template_name = 'book_details.html'
+    context_object_name = 'book'
+

@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('', views.HomeView.as_view(), name='homepage'),
     path('', views.HomeAndCommentCreateView.as_view(), name='homepage'),
+    path('detail/<int:id>', views.BookDetailView.as_view(), name='book_details'),
     path('user/', include('user.urls')),
     path('donate/', include('donate.urls')),
     path('comment/', include('comment.urls')),

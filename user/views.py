@@ -38,12 +38,13 @@ class UserRegistrationView(FormView):
         uid = urlsafe_base64_encode(force_bytes(user.pk))
         # print("uid ", uid)
         confirm_link = f"https://book-donate-platform-g1fx.onrender.com/user/active/{uid}/{token}"
+        # confirm_link = f"http://127.0.0.1:8000/user/active/{uid}/{token}"
         email_subject = "Confirm Your Email"
         email_body = render_to_string('confirm_email.html', {'confirm_link' : confirm_link})
         email = EmailMultiAlternatives(email_subject , '', to=[user.email])
         email.attach_alternative(email_body, "text/html")
         email.send()
-        login(self.request, user)
+        # login(self.request, user)
         return super().form_valid(form)
 
 def activate(request, uid64, token):
@@ -82,6 +83,17 @@ class UserLoginView(LoginView):
         return context
 
 
+def pass_change(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(user=request.user, data = request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return redirect('profile')
+    else:
+        form = PasswordChangeForm(user=request.user)
+    return render(request, 'pass_change.html', {'form': form})
+
 class UserProfileView(TemplateView):
     template_name = 'profile.html'
 
@@ -111,7 +123,7 @@ class ProfileView(ListView):
 
 
 class UserAccountUpdateView(View):
-    template_name = 'register.html'
+    template_name = 'update_profile.html'
 
     def get(self, request):
         form = forms.UserUpdateForm(instance=request.user)
@@ -122,7 +134,7 @@ class UserAccountUpdateView(View):
         if form.is_valid():
             form.save()
             messages.success(request,'Successfully updated')
-            return redirect('profile')  # Redirect to the user's profile page
+            return redirect('profile')
         else:
             messages.error(request,'Error updating profile')
         return render(request, self.template_name, {'form': form})

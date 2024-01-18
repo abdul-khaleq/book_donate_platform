@@ -1,33 +1,33 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<div class="container py-5">
-  <div class="row g-2">
-    <div class="col-6 d-flex align-items-center">
-      <div class="">
-        <h1>Welcome to our book donate platform</h1>
-        <p>Explore a wide range of top-quality books and find your dream vehicle with ease.</p>
-        <p>Discover our handpicked selection of featured books. Each model is meticulously chosen for its performance, style, and reliability. Browse through the finest collection and choose a car that suits your preferences.</p>
-      </div>
-    </div>
-    <div class="col-6">
-      <div class="p-3 border bg-light">
-        <img src="{% static "images/home_img.jpg" %}" class="img-fluid" alt="">
-      </div>
-    </div>
+
+
+
+<div class="" style="background-image: url('{% static "images/herobanner.jpg" %}'); height: 100vh; width: 100%;
+  background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center;
+  position: relative">
+
+  <div style="position: absolute;top: 30%;left: 10%;width: 40%; background-color:#db4e68;border-radius: 2em 1em 4em / 0.5em 3em" class="p-5">
+      <h5 class="py-3 text-light">BOOKS BRING HOPE: BE A BOOK HERO TODAY!</h5>
+    <h2 class="text-white">Share the Gift of Learning: Donate Books, Enrich Lives.</h2>
+    <p class="text-center"><a class="btn btn-warning" href="{% url 'donate_book'%}" role="button">Donate</a></p>
   </div>
 </div>
+
 <div class="container py-3">
-  <h4>Total book found: {{books|length}}</h4>
+  <h4 class="py-3">Total book found: {{books|length}}</h4>
   <div class="row row-cols-1 row-cols-md-3 g-4">
     {% for book in books%}
     <div class="col">
-      <div class="card h-100">
+      <div class="card">
         <img src="{{book.image.url}}" class="card-img-top" alt="{{book.title}}">
         <div class="card-body">
-          <h5 class="card-title">Title: {{book.title}}</h5>
-          <p class="card-text">Author: {{book.author}}</p>
-          {% comment %} <a href="{% url 'book_details' book.id%}" class="btn btn-primary">View Details</a> {% endcomment %}
+          <h2 class="card-title">{{book.title}} <sub class="text-primary fs-6">By {{book.author}}</sub></h2>
+          <p class="card-text fs-4">{{book.description|truncatewords:10}}</p>
+          <p class="card-text"><small class="text-body-secondary text-secondary">Donated on {{book.donated_on}}</small>
+          </p>
+          <p class="text-center"><a href="{% url 'book_details' book.id%}" class="btn btn-primary">Details</a></p>
         </div>
       </div>
     </div>
@@ -35,51 +35,27 @@
   </div>
 </div>
 
-
-
 <div class="container py-3">
   <h1>Total comments: {{comments|length}}</h1>
   {% for comment in comments%}
   <div class="card-body border m-3">
-    <h6>{{comment.user}} {{comment.cheated_on}}</h6>
+    <h4>{{comment.user.first_name}} {{comment.user.last_name}} <small class="text-body-secondary text-secondary fs-6">{{comment.created_on}}</small></h4>
     <p>{{comment.text}}</p>
   </div>
   {% endfor %}
 
+  {% if request.user.username%}
+  {% load crispy_forms_tags %}
+  <form class="w-50 m-auto py-5" method="post" enctype="multipart/form-data">
+    <h1>Comment Book</h1>
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button class="btn btn-primary">Submit</button>
+  </form>
+  {% else %}
+  <h4>You can comment after login</h4>
+  {% endif %}
 
-  {% comment %} <div class="card-body">
-    <form action="" method="post">
-      <h1>Add comments</h1>
-      {% csrf_token %}
-      {{comment_form|crispy}}
-      <button class="btn btn-warning">Submit</button>
-    </form>
-  </div>
-</div> {% endcomment %}
-
-
-
-
-
-
-
-
-
-
-
-{% if  request.user.username%}
-{% load crispy_forms_tags %}
-<form class="w-50 m-auto py-5" method="post" enctype="multipart/form-data">
-  <h1>Comment Book</h1>
-  {% csrf_token %}
-  {{ form|crispy }}
-  <button class="btn btn-primary">Submit</button>
-</form>
-{% else %}
-<h4>You can comment after login</h4>
-{% endif %}
-
-{% endblock content %}
+  {% endblock content %}
 
 </div>
-
