@@ -24,7 +24,7 @@
         <img src="{{book.image.url}}" class="card-img-top" alt="{{book.title}}">
         <div class="card-body">
           <h2 class="card-title">{{book.title}} <sub class="text-primary fs-6">By {{book.author}}</sub></h2>
-          <p class="card-text fs-4">{{book.description|truncatewords:10}}</p>
+          <p class="card-text">{{book.description|truncatewords:10}}</p>
           <p class="card-text"><small class="text-body-secondary text-secondary">Donated on {{book.donated_on}}</small>
           </p>
           <p class="text-center"><a href="{% url 'book_details' book.id%}" class="btn btn-primary">Details</a></p>
