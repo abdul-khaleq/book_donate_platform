@@ -11,7 +11,7 @@ from django.views import View
 class BookDonateCreateView(CreateView):
     model = models.BookDonateModel
     form_class = forms.BookDonateForm
-    template_name = 'donate_book.html'
+    template_name = 'register.html'
     success_url = reverse_lazy('homepage')
 
     def form_valid(self, form):
@@ -23,6 +23,13 @@ class BookDonateCreateView(CreateView):
         user_account.save()
         messages.success(self.request, 'The book has been donated successfully. 5 coins added to your account.')
         return response
-
     def form_invalid(self, form):
         return super().form_invalid(form)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['type'] = 'Donate'
+        context['icon'] = 'fa-solid fa-hand-holding-medical'
+        context['has_account'] = "Return"
+        context['redirect'] = "homepage"
+        context['user_to_another'] = "home"
+        return context

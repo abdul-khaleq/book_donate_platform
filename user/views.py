@@ -46,7 +46,18 @@ class UserRegistrationView(FormView):
         email.send()
         # login(self.request, user)
         return super().form_valid(form)
-
+    def form_invalid(self, form):
+        messages.error(self.request, 'Registration info incorrect')
+        return super().form_invalid(form)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['type'] = 'Sign up'
+        context['icon'] = 'fa-regular fa-address-card'
+        context['has_account'] = "Already have an account?"
+        context['redirect'] = "user_login"
+        context['user_to_another'] = "Sign in"
+        return context
+    
 def activate(request, uid64, token):
     print("RequesT",request, "UiD",uid64, "TokeN", token)
     try:
@@ -79,7 +90,11 @@ class UserLoginView(LoginView):
         return super().form_invalid(form)
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['type'] = 'Login'
+        context['type'] = 'Sign in'
+        context['icon'] = 'fa-solid fa-unlock-keyhole'
+        context['has_account'] = "Don't you have an account?"
+        context['redirect'] = "user_register"
+        context['user_to_another'] = "Sign up"
         return context
 
 
