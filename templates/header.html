@@ -36,8 +36,8 @@
 
         </ul>
 
-        <ul class="navbar-nav ms-auto">
-          {% comment %} {% if request.user.is_authenticated %}
+        <div class="navbar-nav ms-auto">
+          {% if request.user.is_authenticated %}
           <span class="btn text-white">{{request.user.first_name}} {{request.user.last_name}}
             ${{request.user.user.coins}}</span> &nbsp;&nbsp;
           <a href="{%url 'profile'%}" class="btn btn-info btn-outline-light border-0">Profile</a> &nbsp;&nbsp;
@@ -48,33 +48,9 @@
           {% else %}
           <a href="{%url 'user_login'%}" class="btn btn-outline-light">Log in</a> &nbsp;&nbsp;
           <a href="{%url 'user_register'%}" class="btn btn-outline-light">Sign up</a>
-          {% endif %} {% endcomment %}
-
-          {% if request.user.is_authenticated %}
-          <li class="nav-item">
-            <span class="btn text-white">{{request.user.first_name}} {{request.user.last_name}}
-              ${{request.user.user.coins}}</span>
-          </li>
-          <li class="nav-item">
-            <a class="btn-info btn btn-outline-light border-0" aria-current="page" href="{%url 'profile'%}">Profile</a>&nbsp;&nbsp;
-          </li>
-          <li class="nav-item">
-            <form method="post" action="{%url 'user_logout'%}">
-              {% csrf_token %}
-              <button class="btn btn-danger btn-outline-light border-0">Logout</button>
-            </form>
-          </li>
-          
-          {% else %}
-          <li class="nav-item">
-            <a class="btn-info btn btn-outline-light border-0" aria-current="page" href="{%url 'user_login'%}">Log in</a>&nbsp;&nbsp;
-          </li>
-          <li class="nav-item">
-            <a class="btn-info btn btn-outline-light border-0" aria-current="page" href="{%url 'user_register'%}">Sign up</a>
-          </li>
           {% endif %}
 
-        </ul>
+        </div>
       </div>
     </div>
   </nav>
