@@ -108,36 +108,36 @@
 
 
 <div class="container text-center py-5">
-  <h3>Help the Poor Through Us</h3>
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas.</p>
+  <h3>Together, we can share the power of books</h3>
+  <p>Our work is only possible because of the generosity of publishers and the book trade. Every year publishers donate all kinds of books to us - and those books help people worldwide see their future in a whole new light. Here's how the process works:</p>
   <br><br>
   <div class="row">
     <div class="col-sm-6 col-md-4">
-      <div class="card">
+      <div class="card border-0">
         <div class="card-body">
-          <i class="fa-solid fa-house  fa-3x"></i>
-          <h5 class="card-title">Special title treatment</h5>
-          <p class="card-text">Lorem ipsum dolor amet, consectetur amet adipiscing elit, sed do eiusmod incididunt labore dolore ipsum dolor amet, consectetur</p>
+          <i class="fa-solid fa-book text-info fa-8x"></i> <br><br>
+          <h5 class="card-title">We find out what books are needed</h5>
+          <p class="card-text">We have 10 partners, and each tells us exactly which books their communities need.</p>
           {% comment %} <a href="#" class="btn btn-primary">Go somewhere</a> {% endcomment %}
         </div>
       </div>
     </div>
     <div class="col-sm-6 col-md-4">
-      <div class="card">
+      <div class="card border-0">
         <div class="card-body">
-          <i class="fa-solid fa-house  fa-3x"></i>
-          <h5 class="card-title">Special title treatment</h5>
-          <p class="card-text">Lorem ipsum dolor amet, consectetur amet adipiscing elit, sed do eiusmod incididunt labore dolore ipsum dolor amet, consectetur</p>
+          <i class="fa-solid fa-truck text-info fa-8x"></i> <br><br>
+          <h5 class="card-title">You donate brand new books to our Dhaka warehouse</h5>
+          <p class="card-text">Contact us to talk about what books you have and set a time for your donation.</p>
           {% comment %} <a href="#" class="btn btn-primary">Go somewhere</a> {% endcomment %}
         </div>
       </div>
     </div>
     <div class="col-sm-6 col-md-4">
-      <div class="card">
+      <div class="card border-0">
         <div class="card-body">
-          <i class="fa-solid fa-house  fa-3x"></i>
-          <h5 class="card-title">Special title treatment</h5>
-          <p class="card-text">Lorem ipsum dolor amet, consectetur amet adipiscing elit, sed do eiusmod incididunt labore dolore ipsum dolor amet, consectetur</p>
+          <i class="fa-solid fa-book-open-reader text-info fa-8x"></i> <br><br>
+          <h5 class="card-title">We send books to communities around the world</h5>
+          <p class="card-text">After you donate the books, we'll provide them to communities around the world.</p>
           {% comment %} <a href="#" class="btn btn-primary">Go somewhere</a> {% endcomment %}
         </div>
       </div>
@@ -191,20 +191,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <div class="container py-3">
   <h1>Total comments: {{comments|length}}</h1>
   {% for comment in comments%}
@@ -226,6 +212,51 @@
   <h4>You can comment after login</h4>
   {% endif %}
 </div>
+
+
+
+
+
+
+
+
+
+
+<div class="px-2 px-lg-5">
+  <div class="swiffy-slider slider-item-show3 slider-nav-dark slider-nav-visible slider-nav-outside slider-item-snapstart my-3 slider-nav-sm my-xl-5 slider-indicators-square slider-indicators-outside slider-indicators-dark slider-nav-animation-slideup slider-nav-animation">
+    <div class="slider-container">
+      {% for comment in  comments%}
+        <div class="">
+            <div>
+                <h3 class="mb-0 h6" style="color:#DF1E1E;">{{comment.user.first_name}} {{comment.user.last_name}}</h3>
+                <small class="text-body-secondary text-secondary">{{comment.created_on}}</small>
+                <p>{{comment.text}}</p>
+            </div>
+        </div>
+        {% endfor %}
+  
+    </div>
+  
+    <button type="button" class="slider-nav" aria-label="Go left"></button>
+    <button type="button" class="slider-nav slider-nav-next" aria-label="Go left"></button>
+  
+    <div class="slider-indicators" style="justify-content:right;margin-left: 3rem;">
+        <button class="" aria-label="Go to slide"></button>
+        <button aria-label="Go to slide" class=""></button>
+        <button aria-label="Go to slide" class="active"></button>
+        <button aria-label="Go to slide" class=""></button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
 
 {% endblock content %}
 
