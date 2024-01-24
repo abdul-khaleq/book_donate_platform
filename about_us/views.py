@@ -9,10 +9,10 @@ from .models import ContactModel
 from .forms import ContactForm
 
 class AboutUsTemplateView(TemplateView):
-    template_name = 'register.html'
+    template_name = 'about_us.html'
 
 class ContactUsCreateView(CreateView):
-    template_name = 'contact_us.html'
+    template_name = 'register.html'
     model = ContactModel
     form_class = ContactForm
     success_url = reverse_lazy('homepage')
