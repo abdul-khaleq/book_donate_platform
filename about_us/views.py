@@ -9,7 +9,7 @@ from .models import ContactModel
 from .forms import ContactForm
 
 class AboutUsTemplateView(TemplateView):
-    template_name = 'about_us.html'
+    template_name = 'register.html'
 
 class ContactUsCreateView(CreateView):
     template_name = 'contact_us.html'
