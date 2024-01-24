@@ -25,6 +25,7 @@ class ContactUsCreateView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['type'] = 'Contact Us'
+        context['button_text'] = 'Submit'
         context['icon'] = 'fa-solid fa-address-card'
         context['has_account'] = "Want to login?"
         context['redirect'] = "user_login"

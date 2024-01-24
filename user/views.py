@@ -6,6 +6,8 @@ from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.contrib.auth import authenticate, login, update_session_auth_hash, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import  LoginView, LogoutView
 from django.views.generic.edit import CreateView
 from django.views import View
@@ -18,7 +20,7 @@ from donate.models import BookDonateModel
 from donate.forms import BookDonateForm
 from django.views.generic import TemplateView
 
-from django.utils.decorators import method_decorator
+
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes
@@ -52,6 +54,7 @@ class UserRegistrationView(FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['type'] = 'Sign up'
+        context['button_text'] = 'Sign up'
         context['icon'] = 'fa-regular fa-address-card'
         context['has_account'] = "Already have an account?"
         context['redirect'] = "user_login"
@@ -90,6 +93,7 @@ class UserLoginView(LoginView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['type'] = 'Sign in'
+        context['button_text'] = 'Sign in'
         context['icon'] = 'fa-solid fa-unlock-keyhole'
         context['has_account'] = "Don't you have an account?"
         context['redirect'] = "user_register"
@@ -108,7 +112,8 @@ def pass_change(request):
         form = PasswordChangeForm(user=request.user)
     return render(request, 'pass_change.html', {'form': form})
 
-class UserProfileView(TemplateView):
+@method_decorator(login_required, name='dispatch')
+class UserProfileTemplateView(LoginRequiredMixin, TemplateView):
     template_name = 'profile.html'
 
     def get_context_data(self, **kwargs):
@@ -124,18 +129,7 @@ class UserProfileView(TemplateView):
         context['gifts'] = gifts
         return context
 
-
-class ProfileView(ListView):
-    model = BookDonateModel
-    template_name = 'profile.html'
-
-    def get(self, request, *args, **kwargs):
-        gifts = RedeemHistory.objects.filter(user=request.user)
-        books = BookDonateModel.objects.filter(user=self.request.user)
-        print(gifts)
-        return render(request, self.template_name, {'books':books,'gifts': gifts})
-
-
+@method_decorator(login_required, name='dispatch')
 class UserAccountUpdateView(View):
     template_name = 'update_profile.html'
 
@@ -153,21 +147,21 @@ class UserAccountUpdateView(View):
             messages.error(request,'Error updating profile')
         return render(request, self.template_name, {'form': form})
     
-
+@method_decorator(login_required, name='dispatch')
 class UserLogoutView(LogoutView):
     def get_success_url(self):
         if self.request.user.is_authenticated:
             logout(self.request)
         return reverse_lazy('user_login')
 
-
+@method_decorator(login_required, name='dispatch')
 class BookDonateUpdateView(UpdateView):
     model = BookDonateModel
     form_class = BookDonateForm
     template_name = 'update_donate_book.html'
     success_url = reverse_lazy('profile')
 
-
+@method_decorator(login_required, name='dispatch')
 class RedeemGiftView(View):
     def get(self, request, gift_id):
         gift = get_object_or_404(Gift, id=gift_id)

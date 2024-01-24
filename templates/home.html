@@ -151,7 +151,7 @@
 <br><br><br>
 
 
-<div class="container">
+<div class="container py-5">
   <h3 class="text-center">Books give people power</h3>
   <p class="text-center">They provide the information and the inspiration that people need to build a more equal future.</p>
   <h6 class="text-center">So we work for a world where everyone has access to books.</h6>
@@ -191,7 +191,7 @@
 
 
 
-<div class="container py-3">
+{% comment %} <div class="container py-3">
   <h1>Total comments: {{comments|length}}</h1>
   {% for comment in comments%}
   <div class="card-body border m-3">
@@ -211,7 +211,7 @@
   {% else %}
   <h4>You can comment after login</h4>
   {% endif %}
-</div>
+</div> {% endcomment %}
 
 
 
@@ -223,6 +223,7 @@
 
 
 <div class="px-2 px-lg-5">
+  <h3 class="text-center">Review</h3>
   <div class="swiffy-slider slider-item-show3 slider-nav-dark slider-nav-visible slider-nav-outside slider-item-snapstart my-3 slider-nav-sm my-xl-5 slider-indicators-square slider-indicators-outside slider-indicators-dark slider-nav-animation-slideup slider-nav-animation">
     <div class="slider-container">
       {% for comment in  comments%}
@@ -259,5 +260,3 @@
 
 
 {% endblock content %}
-
-</div>
