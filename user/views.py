@@ -83,7 +83,6 @@ class UserLoginView(LoginView):
         return reverse_lazy('homepage')
     def form_valid(self, form):
         messages.success(self.request, 'Logged in successfully')
-        
         return super().form_valid(form)
     def form_invalid(self, form):
         messages.success(self.request, 'Logged in info incorrect')

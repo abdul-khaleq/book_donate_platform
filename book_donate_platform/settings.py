@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'donate',
     'comment',
     'gift',
+    'about_us',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

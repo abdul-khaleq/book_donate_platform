@@ -1,9 +1,9 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic.edit import CreateView
 from donate.models import BookDonateModel
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 from comment.models import Comment
 from donate.models import BookDonateModel
@@ -38,4 +38,3 @@ class BookDetailView(DetailView):
     pk_url_kwarg = 'id'
     template_name = 'book_details.html'
     context_object_name = 'book'
-

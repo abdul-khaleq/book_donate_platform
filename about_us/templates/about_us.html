@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="d-none d-md-block">
+  <div class="" style="background-image: url('{% static "images/herobanner.jpg" %}'); height: 100vh; width: 100%;
+    background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center;
+    position: relative">
+    <div
+      style="position: absolute;top: 30%;left: 10%;width: 40%; background-color:#db4e68;border-radius: 2em 1em 4em / 0.5em 3em"
+      class="p-md-3 p-lg-5">
+      <h5 class="py-3 text-light">BOOKS BRING HOPE: BE A BOOK HERO TODAY!</h5>
+      <h2 class="text-white">Share the Gift of Learning: Donate Books, Enrich Lives.</h2>
+      <p class="text-center"><a class="btn btn-warning" href="{% url 'donate_book'%}" role="button">Donate</a>
+      <p>
+    </div>
+  </div>
+</div>
+<div class="container py-5">
+  <div class="card mb-3">
+    <div class="row g-0">
+      <div class="col-md-6">
+        <img src="{%static 'images/static-2.jpg'%}" class="img-fluid rounded-start" alt="...">
+      </div>
+      <div class="col-md-6 d-flex align-items-center">
+        <div class="card-body">
+          <h5 class="card-title">Donate-a-Book</h5>
+          <p class="card-text">Donate-a-Book is an initiative by Pratham Books to help bridge the gap between those who want to help children read and those who need books for children. Together we will build a Reading India by making storybooks accessible to thousands of children and spread the joy of reading. Donate  Books was founded with the mission of putting 'a book in every child's hand".</p>
+        </div>
+      </div>
+    </div>
+  </div> <br><br>
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="col-md-6  d-flex align-items-center">
+          <div class="card-body">
+            <h5 class="card-title"> Donate Books</h5>
+            <p class="card-text">Donate Books Books is a non-profit organisation that publishes high quality, affordable books for children in multiple Bangladeshi languages. We believe that every child has the right to enjoy good books with stories set in surroundings familiar to them and in languages they speak and learn in. We also believe that to make books accessible to every child, the price points have to be very low.</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <img src="{%static 'images/static-3.jpg'%}" class="img-fluid rounded-start" alt="...">
+        </div>
+      </div>
+  </div>
+  <div class="card mb-3">
+    <div class="row g-0">
+      <div class="col-md-6"> <br>
+        <img src="{%static 'images/INFOGRAPHIC-F2-1-1024x748-1.jpg'%}" class="img-fluid rounded-start" alt="...">
+        <br>
+      </div>
+      <div class="col-md-6 d-flex align-items-center">
+        <div class="card-body">
+          <h5 class="card-title">Crowdfunding Libraries </h5>
+          <p class="card-text">Donate-a-Book bridges the gap between children who need books, and people who wish to help them read by crowdfunding multilingual libraries all across Bangladeshi</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
