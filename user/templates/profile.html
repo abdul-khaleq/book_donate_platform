@@ -1,19 +1,11 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-<div class="container">
 
-  <h1>User Profile</h1>
-  <p><strong>Username:</strong> {{ user.username }}</p>
-  <p><strong>First Name:</strong> {{ user.first_name }}</p>
-  <p><strong>Last Name:</strong> {{ user.last_name }}</p>
-  <p><strong>Email:</strong> {{ user.email }}</p>
-  {% if user_account %}
-    <p><strong>Phone Number:</strong> {{ user_account.phone_number }}</p>
-  {% endif %}
 
-  <a href="{%url 'profile_update'%}"><h1>Update your profile</h1></a>
-</div>
+<a href="{%url 'profile_update'%}">
+  <h1>Update your profile</h1>
+</a>
 
 <div class="container py-3">
   <h4>Total book found: {{books|length}}</h4>

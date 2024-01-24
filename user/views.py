@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import  LoginView, LogoutView
+from django.contrib.auth.views import  LoginView, LogoutView, PasswordChangeView
 from django.views.generic.edit import CreateView
 from django.views import View
 from django.urls import reverse_lazy
@@ -100,19 +100,28 @@ class UserLoginView(LoginView):
         context['user_to_another'] = "Sign up"
         return context
 
+class UserPasswordChangeView(PasswordChangeView):
+    template_name = 'register.html'
+    success_url = reverse_lazy('profile')
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, 'Password successfully changed.')
+        return response
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        messages.error(self.request, 'Error changing password. Please check your inputs.')
+        return response
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['type'] = 'Update your password!'
+        context['button_text'] = 'Update password'
+        context['icon'] = 'fa-solid fa-unlock-keyhole'
+        context['has_account'] = "Return to"
+        context['redirect'] = "profile"
+        context['user_to_another'] = "profile"
+        return context
 
-def pass_change(request):
-    if request.method == 'POST':
-        form = PasswordChangeForm(user=request.user, data = request.POST)
-        if form.is_valid():
-            form.save()
-            update_session_auth_hash(request, form.user)
-            return redirect('profile')
-    else:
-        form = PasswordChangeForm(user=request.user)
-    return render(request, 'pass_change.html', {'form': form})
 
-@method_decorator(login_required, name='dispatch')
 class UserProfileTemplateView(LoginRequiredMixin, TemplateView):
     template_name = 'profile.html'
 
@@ -128,41 +137,46 @@ class UserProfileTemplateView(LoginRequiredMixin, TemplateView):
         context['books'] = books
         context['gifts'] = gifts
         return context
-
-@method_decorator(login_required, name='dispatch')
-class UserAccountUpdateView(View):
-    template_name = 'update_profile.html'
-
-    def get(self, request):
-        form = forms.UserUpdateForm(instance=request.user)
-        return render(request, self.template_name, {'form': form})
-
-    def post(self, request):
-        form = forms.UserUpdateForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-            messages.success(request,'Successfully updated')
-            return redirect('profile')
-        else:
-            messages.error(request,'Error updating profile')
-        return render(request, self.template_name, {'form': form})
     
-@method_decorator(login_required, name='dispatch')
-class UserLogoutView(LogoutView):
+
+class UserAccountUpdateFormView(LoginRequiredMixin, FormView):
+    template_name = 'register.html'
+    form_class = forms.UserUpdateForm
+    success_url = reverse_lazy('profile')
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['instance'] = self.request.user
+        return kwargs
+    def form_valid(self, form):
+        form.save()
+        messages.success(self.request, 'Successfully updated')
+        return super().form_valid(form)
+    def form_invalid(self, form):
+        messages.error(self.request, 'Error updating profile')
+        return super().form_invalid(form)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['type'] = 'Update your information!'
+        context['button_text'] = 'Submit'
+        context['icon'] = 'fa-solid fa-file-pen text-info'
+        context['has_account'] = "Change your password"
+        context['redirect'] = "pass_change"
+        context['user_to_another'] = "click"
+        return context
+
+class UserLogoutView(LoginRequiredMixin, LogoutView):
     def get_success_url(self):
         if self.request.user.is_authenticated:
             logout(self.request)
         return reverse_lazy('user_login')
 
-@method_decorator(login_required, name='dispatch')
-class BookDonateUpdateView(UpdateView):
+class BookDonateUpdateView(LoginRequiredMixin, UpdateView):
     model = BookDonateModel
     form_class = BookDonateForm
     template_name = 'update_donate_book.html'
     success_url = reverse_lazy('profile')
 
-@method_decorator(login_required, name='dispatch')
-class RedeemGiftView(View):
+class RedeemGiftView(LoginRequiredMixin, View):
     def get(self, request, gift_id):
         gift = get_object_or_404(Gift, id=gift_id)
         if request.user.user.coins >= gift.coins_required and gift.quantity > 0:
