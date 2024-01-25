@@ -13,18 +13,10 @@ class HomeListView(ListView):
     model = BookDonateModel
     template_name = 'home.html'
     context_object_name = 'books'
-    # def get_queryset(self):
-    #     return BookDonateModel.objects.all()
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['comments'] =Comment.objects.all()
         return context
-
-class BookDetailView(DetailView):
-    model = BookDonateModel
-    pk_url_kwarg = 'id'
-    template_name = 'book_details.html'
-    context_object_name = 'book'
 
 # @method_decorator(login_required, name='dispatch')
 # class HomeAndCommentCreateView(CreateView):

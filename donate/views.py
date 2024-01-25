@@ -5,15 +5,15 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.urls import reverse_lazy
 from . import forms
-from . import models
+from .models import BookDonateModel
 from user.models import UserAccount
-from django.views.generic import CreateView, DetailView, UpdateView, DeleteView
+from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView
 from django.views import View
 
 # Create your views here. 
 @method_decorator(login_required, name='dispatch')
 class BookDonateCreateView(LoginRequiredMixin, CreateView):
-    model = models.BookDonateModel
+    model = BookDonateModel
     form_class = forms.BookDonateForm
     template_name = 'register.html'
     success_url = reverse_lazy('homepage')
@@ -36,3 +36,14 @@ class BookDonateCreateView(LoginRequiredMixin, CreateView):
         context['redirect'] = "homepage"
         context['user_to_another'] = "home"
         return context
+    
+class BooksListView(ListView):
+    model = BookDonateModel
+    template_name = 'books.html'
+    context_object_name = 'books'
+
+class BookDetailView(DetailView):
+    model = BookDonateModel
+    pk_url_kwarg = 'id'
+    template_name = 'book_details.html'
+    context_object_name = 'book'
