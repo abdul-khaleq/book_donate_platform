@@ -8,8 +8,7 @@ from django.urls import reverse_lazy
 from .models import Comment
 from .forms import CommentForm
 
-@method_decorator(login_required, name='dispatch')
-class CommentCreateView(LoginRequiredMixin,CreateView):
+class CommentCreateView(CreateView):
     model = Comment
     form_class = CommentForm
     template_name = 'comment_form.html'

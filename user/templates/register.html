@@ -1,24 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 
-<<<<<<< HEAD
   {% include "user_form.html" %}
-=======
-<div class="bg-info text-white">
-  <div class="container">
-      <br><br><br><br>
-  <form class="shadow-sm border border-info p-5 bg-dark" method="post" enctype="multipart/form-data">
-    <p class="text-center"><i class="{{icon}}" style="font-size:5vw"></i></p>
-    <h3 class="text-center">{{type}}</h3>
-    {% csrf_token %}
-    {{form | crispy}}
-    <br><br>
-    <p class="text-center"><button class="btn btn-info px-3">{{button_text}}</button></p>
-    <p class="text-center">{{has_account}} <a href="{%url redirect%}">{{user_to_another}}</a></p>
-  </form>
-  <br><br><br><br><br>
-  </div>
-</div>
->>>>>>> 2263b18510109cf76f7e206402d8c0cc5656dad5
 
 {% endblock content %}
