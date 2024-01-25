@@ -2,11 +2,34 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-<form class="w-50 m-auto py-5" method="post" enctype="multipart/form-data">
+{% comment %} <form class="w-50 m-auto py-5" method="post" enctype="multipart/form-data">
   <h1>Comment</h1>
   {% csrf_token %}
   {{form|crispy}}
   <button class="btn btn-primary">Submitttt</button>
-</form>
+</form> {% endcomment %}
+  {% if request.user.is_authenticated %}
+      {% include "user_form.html" %}
+  {% endif %}
+<div class="container py-3">
+  {% if  comments%}
+  <h4 class="text-center py-5">Total reviews: {{comments|length}}</h4>
+  {% else %}
+  <h4 class="text-center py-5">There are no reviews</h4>
+  {% endif %}
+
+  {% for comment in comments%}
+  <div class="card-body border m-3">
+    <h4>{{comment.user.first_name}} {{comment.user.last_name}} 
+      {% for _ in "x"|rjust:comment.ratings %}
+      <sup><i class="fa-solid fa-star text-info"></i></sup>
+      {% endfor %}
+      </h4>
+      <small
+        class="text-body-secondary text-secondary fs-6">{{comment.created_on}}</small>
+    <p>{{comment.text}}</p>
+  </div>
+  {% endfor %}
+</div>
 
 {% endblock content %}
