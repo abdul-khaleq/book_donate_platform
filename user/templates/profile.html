@@ -3,11 +3,15 @@
 {% block content %}
 
 
-<a href="{%url 'profile_update'%}">
-  <h1>Update your profile</h1>
-</a>
+<div class="container py-5">
+  <a href="{%url 'profile_update'%}">
+    <h3 class="text-center text-info">Update your profile</h3>
+  </a>
+</div>
 
 <div class="container py-3">
+  <h3 class="text-white text-center">Book Listing</h3>
+  <p class="text-center">All the books you donated will be shown bellow.</p>
   <h4>Total book found: {{books|length}}</h4>
   <div class="row row-cols-1 row-cols-md-3 g-4">
     {% for book in books%}
@@ -27,21 +31,18 @@
 
 
 
-<div class="container py-3">
-  <h4>Total gifts found: {{gifts|length}}</h4>
+<div class="container py-5">
+  <h3 class="text-white text-center"> Gift Redeem</h3>
+  <p class="text-center">All gift you redeem will be shown bellow. You can get the very easily by requestion mail</p>
+  <h4 class="text-white">Total gifts found: {{gifts|length}}</h4>
   <div class="row row-cols-1 row-cols-md-3 g-4">
     {% for gift in gifts%}
     <div class="col">
       <div class="card h-100">
         <img src="{{gift.gift.image.url}}" class="card-img-top" alt="{{book.gift.name}}">
         <div class="card-body">
-          <h5 class="card-title">Coins required: {{gift.gift.coins_required}}</h5>
-          <h5 class="card-title"> Quantity: {{gift.gift.quantity}}</h5>
           <h5 class="card-title">{{gift.gift.name}}</h5>
           <p class="card-text">{{gift.gift.description}}</p>
-          {% comment %} <a href="{% url 'redeem_gift' gift.id%}" class="btn btn-primary">Redeem</a> {% endcomment %}
-          <a href="{% url 'redeem_gift' gift.id %}"
-            class="btn btn-primary {% if request.user.user.coins < gift.coins_required %} disabled{% endif %}">Redeem</a>
         </div>
       </div>
     </div>
