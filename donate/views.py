@@ -10,6 +10,9 @@ from user.models import UserAccount
 from django.views.generic import CreateView, DetailView, UpdateView, DeleteView, ListView
 from django.views import View
 
+from django.conf import settings
+from django.core.mail import send_mail
+
 # Create your views here. 
 @method_decorator(login_required, name='dispatch')
 class BookDonateCreateView(LoginRequiredMixin, CreateView):
@@ -24,6 +27,11 @@ class BookDonateCreateView(LoginRequiredMixin, CreateView):
         user_account.coins +=10
         user_account.save()
         messages.success(self.request, 'The book has been donated successfully. 5 coins added to your account.')
+        subject = 'Thanks for donation to Donate books'
+        message = f'Hi {self.request.user.first_name} {self.request.user.last_name}, The book has been donated successfully. 5 coins added to your account.'
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [self.request.user.email, ]
+        send_mail( subject, message, email_from, recipient_list )
         return response
     def form_invalid(self, form):
         return super().form_invalid(form)

@@ -1,21 +1,8 @@
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
 {% block content %}
 
-<div class="bg-info text-white">
-  <div class="w-50 m-auto">
-      <br><br><br><br>
-  <form class="shadow-sm border border-info p-5 bg-dark" method="post">
-    <p class="text-center"><i class="{{icon}}" style="font-size:5vw"></i></p>
-    <h3 class="text-center">{{type}}</h3>
-    {% csrf_token %}
-    {{form | crispy}}
-    <br><br>
-    <p class="text-center"><button class="btn btn-info px-3">{{type}}</button></p>
-    <p class="text-center">{{has_account}} <a href="{%url redirect%}">{{user_to_another}}</a></p>
-  </form>
-  <br><br><br><br><br>
+  {% include "user_form.html" %}
+  <div class="container">
+    
   </div>
-</div>
-
 {% endblock content %}
