@@ -11,7 +11,7 @@
   {% if request.user.is_authenticated %}
       {% include "user_form.html" %}
   {% endif %}
-<div class="container py-3">
+<div class="container py-3 text-white">
   {% if  comments%}
   <h4 class="text-center py-5">Total reviews: {{comments|length}}</h4>
   {% else %}
@@ -20,14 +20,14 @@
 
   {% for comment in comments%}
   <div class="card-body border m-3">
-    <h4>{{comment.user.first_name}} {{comment.user.last_name}} 
-      {% for _ in "x"|rjust:comment.ratings %}
+    <h4 class="text-white">{{comment.user.first_name}} {{comment.user.last_name}} 
+     {% for _ in "x"|rjust:comment.ratings %}
       <sup><i class="fa-solid fa-star text-info"></i></sup>
       {% endfor %}
       </h4>
       <small
         class="text-body-secondary text-secondary fs-6">{{comment.created_on}}</small>
-    <p>{{comment.text}}</p>
+    <p class="text-white">{{comment.text}}</p>
   </div>
   {% endfor %}
 </div>
