@@ -1,18 +1,13 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from . import forms
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
-from django.contrib.auth import authenticate, login, update_session_auth_hash, logout
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import  LoginView, LogoutView, PasswordChangeView
-from django.views.generic.edit import CreateView
 from django.views import View
 from django.urls import reverse_lazy
 from django.views.generic import UpdateView
-from django.views.generic import FormView,ListView
+from django.views.generic import FormView
 from django.contrib.auth.models import User
 from .models import Gift,UserAccount, RedeemHistory
 from donate.models import BookDonateModel
