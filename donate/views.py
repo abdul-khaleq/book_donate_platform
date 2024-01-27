@@ -18,7 +18,7 @@ from django.core.mail import send_mail
 class BookDonateCreateView(LoginRequiredMixin, CreateView):
     model = BookDonateModel
     form_class = forms.BookDonateForm
-    template_name = 'register.html'
+    template_name = 'user_form.html'
     success_url = reverse_lazy('homepage')
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -26,7 +26,7 @@ class BookDonateCreateView(LoginRequiredMixin, CreateView):
         user_account = UserAccount.objects.get(user=self.request.user)
         user_account.coins +=10
         user_account.save()
-        messages.success(self.request, 'The book has been donated successfully. 5 coins added to your account.')
+        messages.success(self.request, 'The book has been donated successfully. 10 coins added to your account.')
         subject = 'Thanks for donation to Donate books'
         message = f'Hi {self.request.user.first_name} {self.request.user.last_name}, The book has been donated successfully. 5 coins added to your account.'
         email_from = settings.EMAIL_HOST_USER
